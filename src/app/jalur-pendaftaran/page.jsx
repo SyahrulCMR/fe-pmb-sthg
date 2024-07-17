@@ -6,13 +6,13 @@ function Page() {
   return (
     <>
       <section className="pt-12 flex justify-center">
-        <div className="container">
+        <div className="container px-5 sm:px-0">
           <InformatinComponent />
         </div>
       </section>
 
       <section className="pt-12 flex justify-center">
-        <div className="container">
+        <div className="container px-5 sm:px-0">
           <JalurList />
         </div>
       </section>

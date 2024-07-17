@@ -57,7 +57,7 @@ function Page() {
       {/* {jalur === null
         ? "Silahkan ambil jalur terlebih dahulu"
         : `Anda mendaftar melalui jalur ${jalur}`} */}
-      <div className="container">
+      <div className="container px-5 sm:px-0">
         <Card className="shadow-none border-2">
           <form action="">
             <CardBody>
@@ -78,7 +78,7 @@ function Page() {
                   name="name"
                   color="blue"
                 />
-                <div className="flex items-center">
+                <div className="sm:flex items-center">
                   <Typography>Jenis Kelamin</Typography>
                   <div className="flex items-center gap-3">
                     <Radio name="gender" label="Laki Laki" />

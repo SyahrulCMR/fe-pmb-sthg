@@ -22,7 +22,7 @@ function Berita() {
         </Button>
       </div>
       <div className="lg:grid grid-cols-3 gap-8">
-        <Card className="mt-6 w-96 shadow-none border-2">
+        <Card className="mt-6 sm:w-96 shadow-none border-2">
           <CardHeader
             color="blue-gray"
             className="relative h-56 shadow-none rounded-md"
@@ -48,7 +48,7 @@ function Berita() {
             <Button>Read More</Button>
           </CardFooter>
         </Card>
-        <Card className="mt-6 w-96 shadow-none border-2">
+        <Card className="mt-6 sm:w-96 shadow-none border-2">
           <CardHeader
             color="blue-gray"
             className="relative h-56 shadow-none rounded-md"
@@ -74,7 +74,7 @@ function Berita() {
             <Button>Read More</Button>
           </CardFooter>
         </Card>
-        <Card className="mt-6 w-96 shadow-none border-2">
+        <Card className="mt-6 sm:w-96 shadow-none border-2">
           <CardHeader
             color="blue-gray"
             className="relative h-56 shadow-none rounded-md"

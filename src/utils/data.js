@@ -1,3 +1,10 @@
+const getMainUrl = () => {
+  const currentUrl = window.location.href;
+  const url = new URL(currentUrl);
+  const mainDomain = url.origin;
+  return mainDomain;
+};
+
 export function getJalur() {
   const jalur = sessionStorage.getItem("jalur");
   return jalur;
@@ -57,7 +64,8 @@ export const formContent = [
 ];
 
 export async function getProvincies() {
-  const res = await fetch("http://localhost:3000/api/indonesia-region", {
+  const mainDomain = getMainUrl()
+  const res = await fetch(`${mainDomain}/api/indonesia-region`, {
     cache: "no-store",
   });
 
@@ -66,7 +74,8 @@ export async function getProvincies() {
 }
 
 export async function getRegency(provincy_id) {
-  // console.log(provincy_id.value)
+  const mainDomain = getMainUrl();
+
   if (!provincy_id) {
     return [
       {
@@ -77,7 +86,7 @@ export async function getRegency(provincy_id) {
   }
 
   const res = await fetch(
-    `http://localhost:3000/api/indonesia-region?provincy_id=${Number(
+    `${mainDomain}/api/indonesia-region?provincy_id=${Number(
       provincy_id.value
     )}`,
     {
@@ -100,8 +109,11 @@ export async function getDistricts(provincy_id, regency_id) {
     ];
   }
 
+  const mainDomain = getMainUrl();
+
+
   const res = await fetch(
-    `http://localhost:3000/api/indonesia-region?provincy_id=${Number(
+    `${mainDomain}/api/indonesia-region?provincy_id=${Number(
       provincy_id.value
     )}&regency_id=${Number(regency_id.value)}`,
     {
@@ -123,8 +135,11 @@ export async function getVillages(provincy_id, regency_id, district_id) {
     ];
   }
 
+  const mainDomain = getMainUrl();
+
+
   const res = await fetch(
-    `http://localhost:3000/api/indonesia-region?provincy_id=${Number(
+    `${mainDomain}/api/indonesia-region?provincy_id=${Number(
       provincy_id.value
     )}&regency_id=${Number(regency_id.value)}&district_id=${Number(
       district_id.value
