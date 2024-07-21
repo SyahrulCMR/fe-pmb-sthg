@@ -12,7 +12,7 @@ export default function NotFound() {
           Opss
         </Typography>
         <p className="my-5">Halaman tidak ditemukan</p>
-        <Button color="blue" onClick={()=>{
+        <Button onClick={()=>{
           router.push('/')
         }}>Home Page</Button>
       </div>

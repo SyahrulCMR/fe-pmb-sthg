@@ -6,65 +6,12 @@ const getMainUrl = () => {
 };
 
 export function getJalur() {
-  const jalur = sessionStorage.getItem("jalur");
+  const jalur = sessionStorage.getItem("_jalur");
   return jalur;
 }
 
-export const formContent = [
-  {
-    type: "text",
-    name: "name",
-    label: "Nama",
-  },
-  {
-    type: "radio",
-    name: "Jenis Kelamin",
-    choice: [
-      {
-        name: "jk",
-        label: "Male",
-      },
-      {
-        name: "jk",
-        label: "Female",
-      },
-    ],
-  },
-
-  {
-    type: "number",
-    name: "no_hp",
-    label: "No. HP",
-  },
-  {
-    type: "email",
-    name: "email",
-    label: "Alamat Email",
-  },
-  {
-    type: "date",
-    name: "tgl_lahir",
-    label: "Tanggal Lahir",
-  },
-  {
-    type: "text",
-    name: "tmpt_lahir",
-    label: "Tempat Lahir",
-  },
-  {
-    type: "text",
-    name: "nationality",
-    label: "Kewarganegaraan",
-  },
-  {
-    type: "number",
-    name: "no_ktp",
-    label: "No. KTP",
-  },
-];
-
 export async function getProvincies() {
-  const mainDomain = getMainUrl()
+  const mainDomain = getMainUrl();
   const res = await fetch(`${mainDomain}/api/indonesia-region`, {
     cache: "no-store",
   });
@@ -86,9 +33,7 @@ export async function getRegency(provincy_id) {
   }
 
   const res = await fetch(
-    `${mainDomain}/api/indonesia-region?provincy_id=${Number(
-      provincy_id.value
-    )}`,
+    `${mainDomain}/api/indonesia-region?provincy_id=${provincy_id.value}`,
     {
       cache: "no-store",
     }
@@ -111,11 +56,8 @@ export async function getDistricts(provincy_id, regency_id) {
 
   const mainDomain = getMainUrl();
 
-
   const res = await fetch(
-    `${mainDomain}/api/indonesia-region?provincy_id=${Number(
-      provincy_id.value
-    )}&regency_id=${Number(regency_id.value)}`,
+    `${mainDomain}/api/indonesia-region?provincy_id=${provincy_id.value}&regency_id=${regency_id.value}`,
     {
       cache: "no-store",
     }
@@ -137,13 +79,8 @@ export async function getVillages(provincy_id, regency_id, district_id) {
 
   const mainDomain = getMainUrl();
 
-
   const res = await fetch(
-    `${mainDomain}/api/indonesia-region?provincy_id=${Number(
-      provincy_id.value
-    )}&regency_id=${Number(regency_id.value)}&district_id=${Number(
-      district_id.value
-    )}`,
+    `${mainDomain}/api/indonesia-region?provincy_id=${provincy_id.value}&regency_id=${regency_id.value}&district_id=${district_id.value}`,
     {
       cache: "no-store",
     }
@@ -153,6 +90,28 @@ export async function getVillages(provincy_id, regency_id, district_id) {
   return data;
 }
 
+export const jalurOptions = [
+  {
+    value: "UMUM",
+    label: "UMUM",
+  },
+  {
+    value: "KIPK",
+    label: "KIPK",
+  },
+];
+
+export const daftarOptions = [
+  {
+    value: "BARU",
+    label: "BARU",
+  },
+  {
+    value: "PINDAHAN",
+    label: "PINDAHAN",
+  },
+];
+
 export const kewarganegaraanOptions = [
   {
     value: "WNI",
@@ -161,6 +120,20 @@ export const kewarganegaraanOptions = [
   {
     value: "WNA",
     label: "WNA",
+  },
+];
+export const stayWithOptions = [
+  {
+    value: "ORANG TUA",
+    label: "ORANG TUA",
+  },
+  {
+    value: "WALI",
+    label: "WALI",
+  },
+  {
+    value: "SENDIRI",
+    label: "SENDIRI",
   },
 ];
 export const jenisSekolahOptions = [
@@ -179,6 +152,28 @@ export const jenisSekolahOptions = [
   {
     value: "SMKS",
     label: "SMKS",
+  },
+];
+export const agamaOptions = [
+  {
+    value: "ISLAM",
+    label: "ISLAM",
+  },
+  {
+    value: "HINDU",
+    label: "HINDU",
+  },
+  {
+    value: "BUDHA",
+    label: "BUDHA",
+  },
+  {
+    value: "KRISTEN",
+    label: "KRISTEN",
+  },
+  {
+    value: "KONGHUCU",
+    label: "KONGHUCU",
   },
 ];
 
@@ -211,3 +206,81 @@ export const prodiOptions = [
     label: "S2 HUKUM",
   },
 ];
+
+export const getGelombang = async () => {
+  const res = await fetch("http://127.0.0.1:8000/api/setting-pmb", {
+    cache: "no-store",
+  });
+
+  const result = await res.json();
+
+  return result.data.gelombang;
+};
+
+export const rupiah = (number) => {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(number);
+};
+
+export const formatTanggal = (date) => {
+  return date.toLocaleDateString("id-ID", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+};
+
+export const parseGelombang = (gelombangData) => {
+  const currentDate = new Date();
+
+  // Tipe dan harga untuk gelombang
+  const tipeGelombang = ["S1 Reguler", "S1 Karyawan", "S2 Reguler"];
+
+  const hargaTipe = {
+    "S1 Reguler": 400000,
+    "S1 Karyawan": 500000,
+    "S2 Reguler": 1000000,
+  };
+
+  const bulanIndonesia = {
+    Januari: 0,
+    Februari: 1,
+    Maret: 2,
+    April: 3,
+    Mei: 4,
+    Juni: 5,
+    Juli: 6,
+    Agustus: 7,
+    September: 8,
+    Oktober: 9,
+    November: 10,
+    Desember: 11,
+  };
+
+  // Map the gelombang data with the corresponding type and price
+  const parsedGelombang = gelombangData.flatMap((item, index) => {
+    const [name, dates] = item.split(" : ");
+    const [start, end] = dates.split(" - ").map((date) => {
+      const [day, month, year] = date.split(" ");
+      const monthIndex = bulanIndonesia[month];
+      const formattedDate = new Date(year, monthIndex, parseInt(day));
+      return formattedDate;
+    });
+
+    return tipeGelombang.map((tipe, tipeIndex) => {
+      const price = rupiah(hargaTipe[tipe] || 0);
+      return { name: `${tipe} ${name}`, start, end, tipe, price };
+    });
+  });
+
+  // Filter the gelombang based on the current date
+  const filteredGelombang = parsedGelombang.filter(({ start, end }) => {
+    return currentDate >= start && currentDate <= end;
+  });
+
+  return filteredGelombang;
+};

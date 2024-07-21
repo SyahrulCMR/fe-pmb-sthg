@@ -1,7 +1,6 @@
+import { Card, CardBody, Typography } from "@/components/components";
 
-import { Card, CardBody, Typography } from '@/components/components';
-
-function InformatinComponent() {
+async function InformationComponent() {
   return (
     <Card className="shadow-none border-2">
       <CardBody>
@@ -13,4 +12,4 @@ function InformatinComponent() {
   );
 }
 
-export default InformatinComponent
+export default InformationComponent;

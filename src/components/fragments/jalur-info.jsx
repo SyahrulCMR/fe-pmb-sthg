@@ -18,14 +18,14 @@ function JalurInfo() {
       <Typography variant="h5" color="blue-gray" className="mb-4">
         Kamu Memilih Jalur Pendaftaran
       </Typography>
-      <div className="border border-blue-500 flex justify-between items-center rounded-lg p-5">
-        <div className="flex items-center gap-5">
+      <div className="border border-blue-500 flex justify-between items-center rounded-lg p-2 sm:p-5">
+        <div className="flex items-center gap-2 sm:gap-5">
           <InformationCircleIcon className="h-12 w-12 text-blue-500" />
           <div>
-            <Typography variant="h6" color="blue">
-              {jalur}
+            <Typography variant="h5" color="blue">
+              {jalur && jalur.toUpperCase()}
             </Typography>
-            <Typography>Regular</Typography>
+            <Typography></Typography>
           </div>
         </div>
         <Link href={"/jalur-pendaftaran"} className="underline text-blue-700">

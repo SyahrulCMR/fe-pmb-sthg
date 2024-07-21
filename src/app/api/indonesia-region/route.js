@@ -29,24 +29,24 @@ export async function GET(request) {
 
   if (provincy_id) {
     filteredData = filteredData.filter(
-      (province) => province.id === provincy_id
+      (province) => province.name === provincy_id
     );
   } else {
     // If provincy_id is not provided, return all provinces
     return Response.json(
-      data.map((province) => ({ value: province.id, label: province.name }))
+      data.map((province) => ({ value: province.name, label: province.name }))
     );
   }
 
   if (regency_id && filteredData.length > 0) {
     filteredData = filteredData[0].regencies.filter(
-      (regency) => regency.id === regency_id
+      (regency) => regency.name === regency_id
     );
   } else if (!regency_id) {
     // If regency_id is not provided, return all regencies of the filtered province
     return Response.json(
       filteredData[0].regencies.map((regency) => ({
-        value: regency.id,
+        value: regency.name,
         label: regency.name,
       }))
     );
@@ -54,13 +54,13 @@ export async function GET(request) {
 
   if (district_id && filteredData.length > 0) {
     filteredData = filteredData[0].districts.filter(
-      (district) => district.id === district_id
+      (district) => district.name === district_id
     );
   } else if (!district_id) {
     // If district_id is not provided, return all districts of the filtered regency
     return Response.json(
       filteredData[0].districts.map((district) => ({
-        value: district.id,
+        value: district.name,
         label: district.name,
       }))
     );
@@ -68,13 +68,13 @@ export async function GET(request) {
 
   if (village_id && filteredData.length > 0) {
     filteredData = filteredData[0].villages.filter(
-      (village) => village.id === village_id
+      (village) => village.name === village_id
     );
   } else if (!village_id) {
     // If village_id is not provided, return all villages of the filtered district
     return Response.json(
       filteredData[0].villages.map((village) => ({
-        value: village.id,
+        value: village.name,
         label: village.name,
       }))
     );

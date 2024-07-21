@@ -6,6 +6,8 @@ function SelectComponent({
   placeholder,
   handleChange = () => {},
   isDisabled = false,
+  required = false,
+  name = "",
 }) {
   return (
     <Select
@@ -15,6 +17,8 @@ function SelectComponent({
       placeholder={placeholder}
       onChange={handleChange}
       isDisabled={isDisabled}
+      required={required}
+      name={name}
     />
   );
 }
