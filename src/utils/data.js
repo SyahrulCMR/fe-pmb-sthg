@@ -10,6 +10,21 @@ export function getJalur() {
   return jalur;
 }
 
+export async function getBerita() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cms/getBerita`, {
+    cache: "no-store",
+  });
+
+  const data = await res.json();
+  return data;
+}
+
+export const getLatestBerita = (beritaArray, count) => {
+  return beritaArray
+    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    .slice(0, count);
+};
+
 export async function getProvincies() {
   const mainDomain = getMainUrl();
   const res = await fetch(`${mainDomain}/api/indonesia-region`, {
@@ -90,14 +105,50 @@ export async function getVillages(provincy_id, regency_id, district_id) {
   return data;
 }
 
-export const jalurOptions = [
+export const yesNoOptions = [
   {
-    value: "UMUM",
-    label: "UMUM",
+    value: "YA",
+    label: "YA",
   },
   {
-    value: "KIPK",
-    label: "KIPK",
+    value: "TIDAK",
+    label: "TIDAK",
+  },
+];
+export const penghasilanOptions = [
+  {
+    value: "< Rp. 1.000.000",
+    label: "< Rp. 1.000.000",
+  },
+  {
+    value: "Rp. 1.000.000 – Rp. 2.000.000",
+    label: "Rp. 1.000.000 – Rp. 2.000.000",
+  },
+  {
+    value: "Rp. 2.000.000 – Rp. 4.000.000",
+    label: "Rp. 2.000.000 – Rp. 4.000.000",
+  },
+  {
+    value: "> Rp. 5.000.000",
+    label: "> Rp. 5.000.000",
+  },
+];
+export const latestGraduateOptions = [
+  {
+    value: "SD/SEDERAJAT",
+    label: "SD/SEDERAJAT",
+  },
+  {
+    value: "SMP/SEDERAJAT",
+    label: "SMP/SEDERAJAT",
+  },
+  {
+    value: "SMA/SEDERAJAT",
+    label: "SMA/SEDERAJAT",
+  },
+  {
+    value: "PENDIDIKAN TINGGI",
+    label: "PENDIDIKAN TINGGI",
   },
 ];
 
@@ -208,13 +259,17 @@ export const prodiOptions = [
 ];
 
 export const getGelombang = async () => {
-  const res = await fetch("http://127.0.0.1:8000/api/setting-pmb", {
-    cache: "no-store",
-  });
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/setting-pmb`, {
+      cache: "no-store",
+    });
 
-  const result = await res.json();
+    const result = await res.json();
 
-  return result.data.gelombang;
+    return result.data.gelombang;
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const rupiah = (number) => {

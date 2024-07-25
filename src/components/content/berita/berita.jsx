@@ -5,11 +5,16 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  Chip,
   Typography,
 } from "@/components/components";
 import Image from "next/image";
+import { formatTanggal, getBerita, getLatestBerita } from "@/utils/data";
+import Link from "next/link";
 
-function Berita() {
+async function Berita() {
+  const berita = await getBerita();
+  const latestBerita = getLatestBerita(berita.data, 3);
   return (
     <div>
       <div className="flex justify-between items-center mb-8 ">
@@ -21,85 +26,36 @@ function Berita() {
           <ArrowRightIcon className="h-5 w-5 font-bold" />
         </Button>
       </div>
-      <div className="lg:grid grid-cols-3 gap-8">
-        <Card className="mt-6 sm:w-96 shadow-none border-2">
-          <CardHeader
-            color="blue-gray"
-            className="relative h-56 shadow-none rounded-md"
-            floated={false}>
-            <Image
-              src="https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
-              alt="card-image"
-              width={1000}
-              height={1000}
-            />
-          </CardHeader>
-          <CardBody>
-            <Typography variant="h5" color="blue-gray" className="mb-2">
-              UI/UX Review Check
-            </Typography>
-            <Typography>
-              The place is close to Barceloneta Beach and bus stop just 2 min by
-              walk and near to &quot;Naviglio&quot; where you can enjoy the main
-              night life in Barcelona.
-            </Typography>
-          </CardBody>
-          <CardFooter className="pt-0">
-            <Button>Read More</Button>
-          </CardFooter>
-        </Card>
-        <Card className="mt-6 sm:w-96 shadow-none border-2">
-          <CardHeader
-            color="blue-gray"
-            className="relative h-56 shadow-none rounded-md"
-            floated={false}>
-            <Image
-              src="https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
-              alt="card-image"
-              width={1000}
-              height={1000}
-            />
-          </CardHeader>
-          <CardBody>
-            <Typography variant="h5" color="blue-gray" className="mb-2">
-              UI/UX Review Check
-            </Typography>
-            <Typography>
-              The place is close to Barceloneta Beach and bus stop just 2 min by
-              walk and near to &quot;Naviglio&quot; where you can enjoy the main
-              night life in Barcelona.
-            </Typography>
-          </CardBody>
-          <CardFooter className="pt-0">
-            <Button>Read More</Button>
-          </CardFooter>
-        </Card>
-        <Card className="mt-6 sm:w-96 shadow-none border-2">
-          <CardHeader
-            color="blue-gray"
-            className="relative h-56 shadow-none rounded-md"
-            floated={false}>
-            <Image
-              src="https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
-              alt="card-image"
-              width={1000}
-              height={1000}
-            />
-          </CardHeader>
-          <CardBody>
-            <Typography variant="h5" color="blue-gray" className="mb-2">
-              UI/UX Review Check
-            </Typography>
-            <Typography>
-              The place is close to Barceloneta Beach and bus stop just 2 min by
-              walk and near to &quot;Naviglio&quot; where you can enjoy the main
-              night life in Barcelona.
-            </Typography>
-          </CardBody>
-          <CardFooter className="pt-0">
-            <Button>Read More</Button>
-          </CardFooter>
-        </Card>
+      <div className="sm:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {latestBerita.map((berita) => (
+          <Card className="mt-6 sm:w-96 shadow-none border-2" key={berita.id}>
+            <CardHeader
+              color="blue-gray"
+              className="relative h-56 shadow-none rounded-md"
+              floated={false}>
+              <Image
+                src={berita.foto}
+                alt="card-image"
+                width={1000}
+                height={1000}
+              />
+            </CardHeader>
+            <CardBody>
+              <Typography variant="h5" color="blue-gray" className="mb-2">
+                {berita.judul}
+              </Typography>
+              <Typography className="truncate">{berita.deskripsi}</Typography>
+            </CardBody>
+            <CardFooter className="pt-0 flex justify-between items-center">
+              <Typography>
+                {formatTanggal(new Date(berita.created_at))}
+              </Typography>
+              <Link href={``}>
+                Read More
+              </Link>
+            </CardFooter>
+          </Card>
+        ))}
       </div>
     </div>
   );

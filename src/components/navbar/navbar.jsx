@@ -22,8 +22,8 @@ function NavList() {
       name: "Jalur Pendaftaran",
     },
     {
-      link: "/informasi",
-      name: "Informasi",
+      link: "/lacak-pendaftaran",
+      name: "Lacak Pendaftaran",
     },
   ];
 

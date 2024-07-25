@@ -1,5 +1,7 @@
 "use client";
 
+import { Toaster } from "sonner";
+
 import {
   Accordion,
   AccordionHeader,
@@ -136,6 +138,7 @@ export {
   TimelineHeader,
   TimelineIcon,
   TimelineItem,
+  Toaster,
   Tooltip,
   Typography,
 };

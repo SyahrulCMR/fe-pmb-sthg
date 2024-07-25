@@ -4,6 +4,7 @@ import { NavbarComponent } from "@/components/navbar/navbar";
 import FooterComponent from "@/components/footer/footer";
 import CopyRight from "@/components/copy-right/copy-right";
 import HelpContent from "@/components/content/help-content/help-content";
+import { Toaster } from "@/components/components";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -38,6 +39,18 @@ export default function RootLayout({ children }) {
           <FooterComponent />
           <CopyRight />
         </footer>
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            // unstyled: true,
+            classNames: {
+              error: "bg-red-400 text-white",
+              success: "text-green-400",
+              warning: "text-yellow-400",
+              info: "bg-blue-400 text-white",
+            },
+          }}
+        />
       </body>
     </html>
   );

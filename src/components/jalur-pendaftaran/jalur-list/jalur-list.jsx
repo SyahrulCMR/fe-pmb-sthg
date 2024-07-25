@@ -30,7 +30,7 @@ function JalurList({ gelombang }) {
 
   const setJalur = (jalur) => {
     sessionStorage.setItem("_jalur", jalur);
-    router.push("/daftar");
+    router.push("/daftar/personal");
   };
 
   return (
