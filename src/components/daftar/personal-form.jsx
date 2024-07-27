@@ -92,6 +92,7 @@ function PersonalForm({ prodi, kelas }) {
         />
         <Input
           type="text"
+          inputMode="numeric"
           label="NIK"
           name="nik"
           color="blue"
@@ -99,6 +100,7 @@ function PersonalForm({ prodi, kelas }) {
         />
         <Input
           type="text"
+          inputMode="numeric"
           label="NISN"
           name="nisn"
           color="blue"
@@ -129,9 +131,9 @@ function PersonalForm({ prodi, kelas }) {
         />
         <Input
           type="text"
+          inputMode="numeric"
           label="No. Hp"
           color="blue"
-          
           name="kontak_wa"
           required
         />
@@ -218,26 +220,26 @@ function PersonalForm({ prodi, kelas }) {
         />
         <Input
           type="text"
+          inputMode="numeric"
           label="RT (format: 001)"
           color="blue"
           name="rt_number"
-          
           required
         />
         <Input
           type="text"
+          inputMode="numeric"
           label="RW (format: 001)"
           color="blue"
           name="rw_number"
-          
           required
         />
         <Input
           type="text"
+          inputMode="numeric"
           label="Kode Pos"
           color="blue"
           name="pos_code"
-          
           required
         />
       </SubForm>
@@ -272,10 +274,10 @@ function PersonalForm({ prodi, kelas }) {
 
             <Input
               type="text"
+              inputMode="numeric"
               label="Nomor KPS atau PKH (Opsional)"
               color="blue"
               name="nomor_kps_pkh"
-              
             />
           </>
         )}

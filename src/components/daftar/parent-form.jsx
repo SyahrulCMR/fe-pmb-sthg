@@ -23,6 +23,7 @@ function ParentForm() {
         />
         <Input
           type="text"
+          inputMode="numeric"
           label="NIK Ayah"
           color="blue"
           name="nik_ayah"
@@ -80,6 +81,7 @@ function ParentForm() {
         />
         <Input
           type="text"
+          inputMode="numeric"
           label="NIK Ibu"
           color="blue"
           name="nik_ibu"
@@ -137,6 +139,7 @@ function ParentForm() {
         />
         <Input
           type="text"
+          inputMode="numeric"
           label="NIK Wali (Opsional)"
           color="blue"
           name="nik_wali"
@@ -157,6 +160,7 @@ function ParentForm() {
       <SubForm>
         <Input
           type="text"
+          inputMode="numeric"
           label="Kontak Orang Tua"
           color="blue"
           name="kontak_orangtua"
@@ -165,6 +169,7 @@ function ParentForm() {
 
         <Input
           type="text"
+          inputMode="numeric"
           label="Kontak Wali (Opsional)"
           color="blue"
           name="kontak_wali"

@@ -1,4 +1,4 @@
-const getMainUrl = () => {
+export const getMainUrl = () => {
   const currentUrl = window.location.href;
   const url = new URL(currentUrl);
   const mainDomain = url.origin;
@@ -11,16 +11,31 @@ export function getJalur() {
 }
 
 export async function getBerita() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cms/getBerita`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cms/getBerita`,
+    {
+      cache: "no-store",
+    }
+  );
 
   const data = await res.json();
   return data;
 }
 
-export const getLatestBerita = (beritaArray, count) => {
-  return beritaArray
+export async function getPengumuman() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cms/getPengumuman`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  const data = await res.json();
+  return data;
+}
+
+export const getLatestContent = (arrayData, count) => {
+  return arrayData
     .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
     .slice(0, count);
 };
@@ -260,9 +275,12 @@ export const prodiOptions = [
 
 export const getGelombang = async () => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/setting-pmb`, {
-      cache: "no-store",
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/setting-pmb`,
+      {
+        cache: "no-store",
+      }
+    );
 
     const result = await res.json();
 

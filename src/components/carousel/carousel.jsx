@@ -1,8 +1,21 @@
-"use client"
+"use client";
 import { Carousel } from "@/components/components";
+import { getLatestContent, getPengumuman } from "@/utils/data";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default function CarouselComponent() {
+  const [pengumuman, setPengumuman] = useState();
+
+  useEffect(() => {
+    getPengumuman().then((val) => {
+      const data = getLatestContent(val.data, 3);
+      setPengumuman(data);
+    });
+  }, []);
+
+  // console.log(pengumuman.data);
+
   return (
     <Carousel
       className="max-h-40 lg:max-h-96 overflow-hidden"
@@ -22,27 +35,16 @@ export default function CarouselComponent() {
           ))}
         </div>
       )}>
-      <Image
-        width={2940}
-        height={1000}
-        src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2560&q=80"
-        alt="image 1"
-        className="h-full w-full object-contain"
-      />
-      <Image
-        width={2940}
-        height={1000}
-        src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
-        alt="image 2"
-        className="h-full w-full object-contain"
-      />
-      <Image
-        width={2940}
-        height={1000}
-        src="https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2762&q=80"
-        alt="image 3"
-        className="h-full w-full object-contain"
-      />
+      {pengumuman &&
+        pengumuman.map((item) => (
+          <Image
+            width={2940}
+            height={1000}
+            src={item.foto}
+            alt="image 1"
+            className="h-full w-full object-contain"
+          />
+        ))}
     </Carousel>
   );
 }

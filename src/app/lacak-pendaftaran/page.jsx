@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Button,
   Card,
@@ -7,8 +9,24 @@ import {
   Input,
   Typography,
 } from "@/components/components";
+import { useState } from "react";
 // 9c9948fd-0dcb-471b-8c23-44090ed63f9b
 function Page() {
+  const [mahasiswa, setMahasiswa] = useState();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const id = formData.get("id");
+    fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/detailPersyaratan?id=${id}`
+    )
+      .then((res) => res.json())
+      .then((data) => setMahasiswa(data));
+  };
+
+  console.log(mahasiswa);
+
   const TABLE_HEAD = ["ID Pendaftaran", "Nama", "NISN", "Status"];
   const TABLE_ROWS = [
     {
@@ -27,13 +45,13 @@ function Page() {
           </Typography>
           <Card className="w-full sm:max-w-max">
             <CardBody className="">
-              <form action="">
+              <form onSubmit={handleSubmit} method="POST">
                 <div className="grid sm:grid-cols-12 gap-3 ">
                   <div className="col-span-12 sm:col-span-10">
                     <Input
                       color="blue"
-                      type="search"
-                      name="search"
+                      type="text"
+                      name="id"
                       label="Id Pendaftaran"
                     />
                   </div>

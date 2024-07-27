@@ -9,12 +9,12 @@ import {
   Typography,
 } from "@/components/components";
 import Image from "next/image";
-import { formatTanggal, getBerita, getLatestBerita } from "@/utils/data";
+import { formatTanggal, getBerita, getLatestContent } from "@/utils/data";
 import Link from "next/link";
 
 async function Berita() {
   const berita = await getBerita();
-  const latestBerita = getLatestBerita(berita.data, 3);
+  const latestBerita = getLatestContent(berita.data, 3);
   return (
     <div>
       <div className="flex justify-between items-center mb-8 ">
@@ -50,9 +50,7 @@ async function Berita() {
               <Typography>
                 {formatTanggal(new Date(berita.created_at))}
               </Typography>
-              <Link href={``}>
-                Read More
-              </Link>
+              <Link href={``}>Read More</Link>
             </CardFooter>
           </Card>
         ))}

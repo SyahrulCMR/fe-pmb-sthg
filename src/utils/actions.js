@@ -117,21 +117,7 @@ export const handleDaftar = (e) => {
         },
         body: JSON.stringify(parentData),
       })
-        .then((res) => {
-          if (!res.ok) {
-            // Try to parse the response as JSON first
-            return res.text().then((text) => {
-              try {
-                const data = JSON.parse(text);
-                throw new Error(data.message || "Something went wrong");
-              } catch (error) {
-                // If response is not JSON, throw text as error
-                throw new Error(text);
-              }
-            });
-          }
-          return res.json();
-        })
+        .then((res) => res.json())
         .then((data) => {
           sessionStorage.setItem("_form", JSON.stringify(parentData));
           sessionStorage.setItem("_progres", "100");
@@ -141,12 +127,11 @@ export const handleDaftar = (e) => {
       {
         loading: "Mohon tunggu..",
         success: (message) => {
-          console.log(message);
-          return message;
+          return "";
         },
         error: (err) => {
           console.log(err.message);
-          return `${err.message}`;
+          return `${err.message}` || "Ups terjadi kesalahan";
         },
       }
     );
