@@ -282,11 +282,21 @@ export const getGelombang = async () => {
       }
     );
 
+    if (!res.ok) {
+      throw new Error(`Failed to fetch: ${res.status} ${res.statusText}`);
+    }
+
     const result = await res.json();
 
-    return result.data.gelombang;
+    if (result && result.data && Array.isArray(result.data.gelombang)) {
+      return result.data.gelombang;
+    } else {
+      console.error("Invalid data structure:", result);
+      return []; // Return an empty array if the data structure is not as expected
+    }
   } catch (error) {
-    console.log(error.message);
+    console.log("Error fetching gelombang data:", error.message);
+    return []; // Return an empty array in case of an error
   }
 };
 
@@ -314,9 +324,9 @@ export const parseGelombang = (gelombangData) => {
   const tipeGelombang = ["S1 Reguler", "S1 Karyawan", "S2 Reguler"];
 
   const hargaTipe = {
-    "S1 Reguler": 400000,
-    "S1 Karyawan": 500000,
-    "S2 Reguler": 1000000,
+    "Gelombang 1": 400000,
+    "Gelombang 2": 500000,
+    "Gelombang 3": 600000,
   };
 
   const bulanIndonesia = {
@@ -335,20 +345,29 @@ export const parseGelombang = (gelombangData) => {
   };
 
   // Map the gelombang data with the corresponding type and price
-  const parsedGelombang = gelombangData.flatMap((item, index) => {
-    const [name, dates] = item.split(" : ");
-    const [start, end] = dates.split(" - ").map((date) => {
-      const [day, month, year] = date.split(" ");
-      const monthIndex = bulanIndonesia[month];
-      const formattedDate = new Date(year, monthIndex, parseInt(day));
-      return formattedDate;
-    });
+  const parsedGelombang = Array.isArray(gelombangData)
+    ? gelombangData.flatMap((item, index) => {
+        const [name, dates] = item.split(" : ");
+        const [start, end] = dates.split(" - ").map((date) => {
+          const [day, month, year] = date.split(" ");
+          const monthIndex = bulanIndonesia[month];
+          const formattedDate = new Date(year, monthIndex, parseInt(day));
+          return formattedDate;
+        });
 
-    return tipeGelombang.map((tipe, tipeIndex) => {
-      const price = rupiah(hargaTipe[tipe] || 0);
-      return { name: `${tipe} ${name}`, start, end, tipe, price };
-    });
-  });
+        return tipeGelombang.map((tipe, tipeIndex) => {
+          let price;
+
+          if (tipe === "S1 Reguler" || tipe === "S1 Karyawan") {
+            price = rupiah(hargaTipe[name] || 0);
+          } else if (tipe === "S2 Reguler") {
+            price = rupiah(1000000);
+          }
+
+          return { name: `${tipe} ${name}`, start, end, tipe, price };
+        });
+      })
+    : [];
 
   // Filter the gelombang based on the current date
   const filteredGelombang = parsedGelombang.filter(({ start, end }) => {

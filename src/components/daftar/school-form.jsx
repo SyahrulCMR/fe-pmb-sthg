@@ -44,7 +44,7 @@ function SchoolForm({prodi}) {
       <SubForm>
         <Input type="text" label="NPWP (Opsional)" color="blue" name="npwp" />
 
-        <Input type="text" label="Perusahan" name="perusahaan" color="blue" />
+        <Input type="text" label="Perusahan (Opsional)" name="perusahaan" color="blue" />
         <Input
           type="text"
           label="Alamat Perusahaan (Opsional)"

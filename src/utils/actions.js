@@ -127,7 +127,8 @@ export const handleDaftar = (e) => {
       {
         loading: "Mohon tunggu..",
         success: (message) => {
-          return "";
+          document.location.href = "/upload";
+          return "Selamat, Pendaftaran berhasil";
         },
         error: (err) => {
           console.log(err.message);
@@ -151,7 +152,7 @@ export const handleDaftar = (e) => {
         loading: "Harap tunggu..",
         success: () => {
           window.location.href = "/daftar/finish";
-          return "Selamat, Pendaftaranmu berhasil";
+          return "Upload berkas berhasil";
         },
         error: "Ups ada kesalahan",
       }

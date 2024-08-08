@@ -38,7 +38,7 @@ function Page() {
   const [prodi, kelas] = jalur.split(" ");
   return (
     <>
-      {jalur === "No Jalur" ? (
+      {jalur === "No Jalur" || "" ? (
         <div className="flex flex-col justify-center items-center min-h-56 gap-3">
           <Typography variant="h4" className="text-center">
             Anda belum memilih jalur, silahkan pilih jalur terlebih dahulu

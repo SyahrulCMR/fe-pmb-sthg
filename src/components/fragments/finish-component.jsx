@@ -24,7 +24,7 @@ function FinishComponent({ id }) {
               Pendaftaranmu berhasil. Tahap selanjutnya adalah datang ke Kampus
               STHG untuk melakukan pembayaran
             </p>
-            <p className="my-5">Id Pedaftaranmu</p>
+            <p className="my-5">Id Pendaftaranmu</p>
             <CopyComponent text={id} />
             <div className=" flex items-center gap-2 mt-5">
               <Button

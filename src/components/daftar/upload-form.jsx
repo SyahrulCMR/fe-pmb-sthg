@@ -11,11 +11,18 @@ function UploadForm() {
   const [daftarSebagai, setDaftarSebagai] = useState("BARU");
 
   useEffect(() => {
-    const path = JSON.parse(sessionStorage.getItem("_form"));
-    setIsKip(path.kip);
-    setKpsPkh(path.kps_pkh);
-    setDaftarSebagai(path.jenis_daftar);
-  });
+    const storedData = sessionStorage.getItem("_form");
+    if (storedData) {
+      try {
+        const path = JSON.parse(storedData);
+        setIsKip(path.kip);
+        setKpsPkh(path.kps_pkh);
+        setDaftarSebagai(path.jenis_daftar);
+      } catch (error) {
+        console.error("Failed to parse _form data:", error);
+      }
+    }
+  }, []);
 
   return (
     <CardBody>
