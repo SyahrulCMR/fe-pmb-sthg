@@ -127,7 +127,7 @@ export const handleDaftar = (e) => {
       {
         loading: "Mohon tunggu..",
         success: (message) => {
-          document.location.href = "/upload";
+          document.location.href = "/daftar/upload";
           return "Selamat, Pendaftaran berhasil";
         },
         error: (err) => {

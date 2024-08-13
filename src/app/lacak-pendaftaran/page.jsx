@@ -9,11 +9,12 @@ import {
   Input,
   Typography,
 } from "@/components/components";
+import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
 // 9c9948fd-0dcb-471b-8c23-44090ed63f9b
 function Page() {
-  const [mahasiswa, setMahasiswa] = useState();
+  const [idMhs, setIdMhs] = useState();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -22,7 +23,7 @@ function Page() {
 
     toast.promise(
       fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/detailPersyaratan?id=${id}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/getPersyaratanByMahasiswa?mhs=${id}`
       )
         .then((res) => {
           if (!res.ok) {
@@ -32,34 +33,23 @@ function Page() {
           return res.json();
         })
         .then((data) => {
-          setMahasiswa(data);
+          setIdMhs(id);
           return data;
         }),
       {
         loading: "Harap tunggu..",
         error: (err) => {
-          console.log(err);
           return `${err.message}` || "Ups terjadi kesalahan";
         },
       }
     );
   };
 
+  const handleDownload = (id) => {
+    document.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/formulir-pmb?daftar=${id}`;
+  };
+
   // console.log(mahasiswa);
-
-  const TABLE_HEAD = ["ID Pendaftaran", "Nama", "NISN", "Status"];
-  let TABLE_ROWS;
-
-  if (mahasiswa) {
-    TABLE_ROWS = [
-      {
-        id: mahasiswa.data.id || "",
-        name: mahasiswa.data.scan_ktp || "",
-        nisn: mahasiswa.data.scan_kk || "",
-        status: "Pending",
-      },
-    ];
-  }
   return (
     <section className="pt-12 flex justify-center">
       <div className="container px-5 sm:px-0">
@@ -67,7 +57,7 @@ function Page() {
           <Typography variant="h3" className="my-8" color="blue-gray">
             Lacak Pendaftaran
           </Typography>
-          <Card className="w-full sm:max-w-max">
+          <Card className="w-full sm:max-w-max min-h-48">
             <CardBody className="">
               <form onSubmit={handleSubmit} method="POST">
                 <div className="grid sm:grid-cols-12 gap-3 ">
@@ -85,58 +75,23 @@ function Page() {
                 </div>
               </form>
             </CardBody>
-            <CardFooter>
-              <div className="my-5 overflow-x-auto">
-                <table className="w-full min-w-max table-auto text-left ">
-                  <thead>
-                    <tr>
-                      {TABLE_HEAD.map((head) => (
-                        <th
-                          key={head}
-                          className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal leading-none opacity-70 text-wrap">
-                            {head}
-                          </Typography>
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {mahasiswa &&
-                      TABLE_ROWS.map(({ id, name, nisn, status }, index) => {
-                        const isLast = index === TABLE_ROWS.length - 1;
-                        const classes = isLast
-                          ? "p-4 border-b border-blue-gray-50"
-                          : "p-4 ";
+            {idMhs && (
+              <CardFooter className="flex flex-col justify-center items-center">
+                <h5 className="text-blue-gray-900 text-xl">
+                  Selamat, Kamu sudah terdaftar
+                </h5>
 
-                        return (
-                          <tr key={id}>
-                            <td className={classes}>
-                              <Typography>{id}</Typography>
-                            </td>
-                            <td className={classes}>
-                              <Typography>{name}</Typography>
-                            </td>
-                            <td className={classes}>
-                              <Typography>{nisn}</Typography>
-                            </td>
-                            <td className={classes}>
-                              <Chip
-                                color={status == "Pending" ? "amber" : ""}
-                                value={status}
-                                className="text-center"
-                              />
-                            </td>
-                          </tr>
-                        );
-                      })}
-                  </tbody>
-                </table>
-              </div>
-            </CardFooter>
+                <Image
+                  src={"/success_daftar.svg"}
+                  width={300}
+                  height={300}
+                  alt="Success terdaftar"
+                />
+                <Button onClick={() => handleDownload(idMhs)} className="mt-3">
+                  Unduh Formulir
+                </Button>
+              </CardFooter>
+            )}
           </Card>
         </div>
       </div>

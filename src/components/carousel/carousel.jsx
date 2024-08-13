@@ -14,7 +14,7 @@ export default function CarouselComponent() {
     });
   }, []);
 
-  // console.log(pengumuman.data);
+  // console.log(pengumuman);
 
   return (
     <Carousel
@@ -38,6 +38,7 @@ export default function CarouselComponent() {
       {pengumuman &&
         pengumuman.map((item) => (
           <Image
+          key={item.judul}
             width={2940}
             height={1000}
             src={item.foto}

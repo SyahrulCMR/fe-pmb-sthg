@@ -1,6 +1,6 @@
 "use client";
 
-import { CardBody, Input } from "@/components/components";
+import { CardBody, Input, Typography } from "@/components/components";
 import React, { useEffect, useState } from "react";
 import TitleForm from "../fragments/title-form";
 import SubForm from "../fragments/sub-form";
@@ -69,14 +69,14 @@ function UploadForm() {
           name="photo_4x6"
           required
         />
-        <Input
+        {/* <Input
           type="file"
           label="Formulir"
           color="blue"
           accept=".jpg, .jpeg, .png, .pdf"
           name="formulir"
           required
-        />
+        /> */}
 
         {daftarSebagai == "PINDAHAN" && (
           <Input
@@ -106,6 +106,21 @@ function UploadForm() {
           />
         )}
       </SubForm>
+      <div className="my-8 flex flex-col gap-5">
+        <Typography className="italic text-blue-gray-900 text-sm">
+          Note: bisa transfer ke no rek BJB Syariah{" "}
+          <span className="font-bold">
+            00200102111169 a.n Yayasan Galunggung
+          </span>
+        </Typography>
+        <Input
+          type="file"
+          label="Bukti Bayar (Opsional)"
+          color="blue"
+          accept=".jpg, .jpeg, .png, .pdf"
+          name="bukti_bayar"
+        />
+      </div>
     </CardBody>
   );
 }
