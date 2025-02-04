@@ -19,6 +19,8 @@ export async function getBerita() {
   );
 
   const data = await res.json();
+
+  // console.log(data)
   return data;
 }
 

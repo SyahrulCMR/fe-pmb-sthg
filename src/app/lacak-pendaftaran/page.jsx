@@ -23,7 +23,7 @@ function Page() {
 
     toast.promise(
       fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/getPersyaratanByMahasiswa?mhs=${id}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/getPersyaratanByMahasiswa?id_mahasiswa=${id}`
       )
         .then((res) => {
           if (!res.ok) {
@@ -87,7 +87,7 @@ function Page() {
                   height={300}
                   alt="Success terdaftar"
                 />
-                <Button onClick={() => handleDownload(idMhs)} className="mt-3">
+                <Button onClick={() => handleDownload(idMhs)} className="mt-3" disabled>
                   Unduh Formulir
                 </Button>
               </CardFooter>

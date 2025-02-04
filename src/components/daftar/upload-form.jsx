@@ -69,14 +69,14 @@ function UploadForm() {
           name="photo_4x6"
           required
         />
-        {/* <Input
+        <Input
           type="file"
           label="Formulir"
           color="blue"
           accept=".jpg, .jpeg, .png, .pdf"
           name="formulir"
           required
-        /> */}
+        />
 
         {daftarSebagai == "PINDAHAN" && (
           <Input
@@ -87,7 +87,7 @@ function UploadForm() {
             name="scan_transkip"
           />
         )}
-        {isKip == "YA" && (
+        {isKip == 1 && (
           <Input
             type="file"
             label="Scan Kartu Indonesia Pintar (KIP)"
@@ -96,7 +96,7 @@ function UploadForm() {
             name="scan_kip"
           />
         )}
-        {kpsPkh == "YA" && (
+        {kpsPkh == 1 && (
           <Input
             type="file"
             label="Scan Proram Keluarga Harapan (PKH)"

@@ -259,16 +259,16 @@ function PersonalForm({ prodi, kelas }) {
             <div className="sm:flex items-center">
               <Typography>Penerima KIP (Opsional)</Typography>
               <div className="flex items-center gap-3">
-                <Radio name="kip" label="YA" value={"YA"} />
-                <Radio name="kip" label="TIDAK" value={"TIDAK"} />
+                <Radio name="kip" label="YA" value={1} />
+                <Radio name="kip" label="TIDAK" value={0} />
               </div>
             </div>
 
             <div className="sm:flex items-center">
               <Typography>Penerima KPS atau PKH (Opsional)</Typography>
               <div className="flex items-center gap-3">
-                <Radio name="kps_pkh" label="YA" value={"YA"} />
-                <Radio name="kps_pkh" label="TIDAK" value={"TIDAK"} />
+                <Radio name="kps_pkh" label="YA" value={1} />
+                <Radio name="kps_pkh" label="TIDAK" value={0} />
               </div>
             </div>
 
