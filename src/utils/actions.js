@@ -11,7 +11,7 @@ export const handleDaftar = (e) => {
   const formData = new FormData(e.target);
 
   if (pathname[1] === "personal") {
-    const jalur = sessionStorage.getItem("_jalur") || "No Jalur";
+    const jalur = sessionStorage.getItem("_jalur");
     const [prodi, kelas] = jalur.split(" ");
 
     const province = formData.get("province");
@@ -46,7 +46,7 @@ export const handleDaftar = (e) => {
       kip: formData.get("kip"),
       kps_pkh: formData.get("kps_pkh"),
       nomor_kps_pkh: formData.get("nomor_kps_pkh"),
-      jalur: formData.get("kip") == "YA" ? "KIPK" : "UMUM",
+      jalur: formData.get("kip") === "YA" ? "KIPK" : "UMUM",
     };
 
     sessionStorage.setItem("_form", JSON.stringify(personalData));
@@ -109,33 +109,48 @@ export const handleDaftar = (e) => {
       kontak_wali: formData.get("kontak_wali"),
     };
 
-    toast.promise(
-      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/daftar`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(parentData),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          sessionStorage.setItem("_form", JSON.stringify(parentData));
-          sessionStorage.setItem("_progres", "100");
-          sessionStorage.setItem("_mhs_id", data.id);
-          return data.message;
-        }),
-      {
-        loading: "Mohon tunggu..",
-        success: (message) => {
-          document.location.href = "/daftar/upload";
-          return "Selamat, Pendaftaran berhasil";
-        },
-        error: (err) => {
-          console.log(err.message);
-          return `${err.message}` || "Ups terjadi kesalahan";
-        },
-      }
-    );
+   toast.promise(
+     fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/daftar`, {
+       method: "POST",
+       headers: {
+         "Content-Type": "application/json",
+       },
+       body: JSON.stringify(parentData),
+     })
+       .then((res) => {
+         if (!res.ok) {
+           // Convert HTTP error response to a JavaScript Error
+           return res.json().then((errData) => {
+             const error = new Error("Server Error");
+             error.data = errData;
+             throw error;
+           });
+         }
+         return res.json();
+       })
+       .then((data) => {
+         sessionStorage.setItem("_form", JSON.stringify(parentData));
+         sessionStorage.setItem("_progres", "100");
+         sessionStorage.setItem("_mhs_id", data.id);
+         return data.message;
+       }),
+     {
+       loading: "Mohon tunggu..",
+       success: (message) => {
+         document.location.href = "/daftar/upload";
+         return "Selamat, Pendaftaran berhasil";
+       },
+       error: (error) => {
+         console.log(error.message);
+         if (error.data && error.data.message) {
+           // Use the message from the server response if available
+           return `Error: ${error.data.message}`;
+         }
+         return "Ups, terjadi kesalahan saat memproses permintaan Anda.";
+       },
+     }
+   );
+
     return;
   }
 
