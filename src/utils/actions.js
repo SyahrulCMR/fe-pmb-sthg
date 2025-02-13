@@ -6,12 +6,12 @@ export const handleDaftar = (e) => {
   const url = new URL(window.location.href);
   const pathname = url.pathname.split("/").filter(Boolean);
 
-  const prev_val_form = JSON.parse(sessionStorage.getItem("_form") || "{}");
+  const prev_val_form = JSON.parse(localStorage.getItem("_form") || "{}");
 
   const formData = new FormData(e.target);
 
   if (pathname[1] === "personal") {
-    const jalur = sessionStorage.getItem("_jalur");
+    const jalur = localStorage.getItem("_jalur");
     const [prodi, kelas] = jalur.split(" ");
 
     const province = formData.get("province");
@@ -27,7 +27,7 @@ export const handleDaftar = (e) => {
 
     const personalData = {
       ...prev_val_form,
-      nama_lengkap: formData.get("name").toUpperCase(),
+      nama_lengkap: formData.get("nama_lengkap").toUpperCase(),
       kelas: kelas.toUpperCase(),
       prodi: prodi,
       nik: formData.get("nik"),
@@ -49,8 +49,8 @@ export const handleDaftar = (e) => {
       jalur: Number(formData.get("kip")) === 1 ? "KIPK" : "UMUM",
     };
 
-    sessionStorage.setItem("_form", JSON.stringify(personalData));
-    sessionStorage.setItem("_progres", "50");
+    localStorage.setItem("_form", JSON.stringify(personalData));
+    localStorage.setItem("_progres", "50");
 
     window.location.href = "/daftar/school";
 
@@ -69,10 +69,11 @@ export const handleDaftar = (e) => {
       alamat_perusahaan: formData.get("alamat_perusahaan"),
       bidang_usaha: formData.get("bidang_usaha"),
       jabatan_terakhir: formData.get("jabatan_terakhir"),
+      info_src: formData.get("info_src_other") ?? formData.get("info_src"),
     };
 
-    sessionStorage.setItem("_form", JSON.stringify(schoolData));
-    sessionStorage.setItem("_progres", "75");
+    localStorage.setItem("_form", JSON.stringify(schoolData));
+    localStorage.setItem("_progres", "75");
 
     window.location.href = "/daftar/parent";
 
@@ -119,7 +120,7 @@ export const handleDaftar = (e) => {
         },
         body: JSON.stringify(parentData),
       })
-        .then((res) => {
+        .then(async (res) => {
           if (!res.ok) {
             // Convert HTTP error response to a JavaScript Error
             return res.json().then((errData) => {
@@ -131,9 +132,9 @@ export const handleDaftar = (e) => {
           return res.json();
         })
         .then((data) => {
-          sessionStorage.setItem("_form", JSON.stringify(parentData));
-          sessionStorage.setItem("_progres", "100");
-          sessionStorage.setItem("_mhs_id", data.id);
+          localStorage.setItem("_form", JSON.stringify(parentData));
+          localStorage.setItem("_progres", "100");
+          localStorage.setItem("_mhs_id", data.id);
           return data.message;
         }),
       {
@@ -146,7 +147,8 @@ export const handleDaftar = (e) => {
           console.log(error.message);
           if (error.data && error.data.message) {
             // Use the message from the server response if available
-            return `Error: ${error.data.message}`;
+            localStorage.setItem("_form", JSON.stringify(parentData));
+            return `Error: ${error.data.message} `;
           }
           return "Ups, terjadi kesalahan saat memproses permintaan Anda.";
         },
@@ -157,7 +159,7 @@ export const handleDaftar = (e) => {
   }
 
   if (pathname[1] === "upload") {
-    const mahasiswaId = sessionStorage.getItem("_mhs_id");
+    const mahasiswaId = localStorage.getItem("_mhs_id");
     formData.append("id_mahasiswa", mahasiswaId);
     toast.promise(
       fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/addPersyaratan`, {

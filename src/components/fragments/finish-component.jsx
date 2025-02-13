@@ -8,10 +8,10 @@ function FinishComponent({ id }) {
   const router = useRouter();
 
   const deleteStorage = (path) => {
-    sessionStorage.setItem("_form", "");
-    sessionStorage.setItem("_jalur", "");
-    sessionStorage.setItem("_progres", "");
-    sessionStorage.setItem("_mhs_id", "");
+    localStorage.setItem("_form", "");
+    localStorage.setItem("_jalur", "");
+    localStorage.setItem("_progres", "");
+    localStorage.setItem("_mhs_id", "");
     router.push(path);
   };
   return (
@@ -21,8 +21,7 @@ function FinishComponent({ id }) {
           <div className="flex flex-col items-center justify-center">
             <Typography variant="h1">Selamat !!</Typography>
             <p className="my-5">
-              Pendaftaranmu berhasil. Tahap selanjutnya adalah datang ke Kampus
-              STHG untuk melakukan pembayaran
+              Pendaftaranmu berhasil. Pastikan cek pemberitahuan dari kami secara rutin melalui WA atau Email
             </p>
             <p className="my-5">Id Pendaftaranmu</p>
             <CopyComponent text={id} />

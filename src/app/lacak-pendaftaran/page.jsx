@@ -45,9 +45,7 @@ function Page() {
     );
   };
 
-  const handleDownload = (id) => {
-    document.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/formulir-pmb?daftar=${id}`;
-  };
+
 
   // console.log(mahasiswa);
   return (
@@ -87,9 +85,7 @@ function Page() {
                   height={300}
                   alt="Success terdaftar"
                 />
-                <Button onClick={() => handleDownload(idMhs)} className="mt-3" disabled>
-                  Unduh Formulir
-                </Button>
+                
               </CardFooter>
             )}
           </Card>

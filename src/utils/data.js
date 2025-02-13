@@ -6,8 +6,13 @@ export const getMainUrl = () => {
 };
 
 export function getJalur() {
-  const jalur = sessionStorage.getItem("_jalur");
+  const jalur = localStorage.getItem("_jalur");
   return jalur;
+}
+
+export function getForm() {
+  const form = JSON.parse(localStorage.getItem("_form") || "{}")
+  return form;
 }
 
 export async function getBerita() {

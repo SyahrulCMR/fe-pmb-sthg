@@ -1,25 +1,26 @@
 "use client";
 
-import { CardBody, Input, Typography } from "@/components/components";
+import { Button, CardBody, Input, Typography } from "@/components/components";
 import React, { useEffect, useState } from "react";
 import TitleForm from "../fragments/title-form";
 import SubForm from "../fragments/sub-form";
+import Link from "next/link";
 
-function UploadForm() {
-  const [isKip, setIsKip] = useState("");
-  const [kpsPkh, setKpsPkh] = useState("");
-  const [daftarSebagai, setDaftarSebagai] = useState("BARU");
+function UploadForm({ formData }) {
+  const [mhsId, setMhsId] = useState("");
+
+  const handleDownload = (id) => {
+    document.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/formulir-pmb?daftar=${id}`;
+  };
 
   useEffect(() => {
-    const storedData = sessionStorage.getItem("_form");
+    const storedData = localStorage.getItem("_mhs_id");
+    console.log(storedData);
     if (storedData) {
       try {
-        const path = JSON.parse(storedData);
-        setIsKip(path.kip);
-        setKpsPkh(path.kps_pkh);
-        setDaftarSebagai(path.jenis_daftar);
+        setMhsId(storedData);
       } catch (error) {
-        console.error("Failed to parse _form data:", error);
+        console.error("Failed get data:", error);
       }
     }
   }, []);
@@ -69,16 +70,8 @@ function UploadForm() {
           name="photo_4x6"
           required
         />
-        <Input
-          type="file"
-          label="Formulir"
-          color="blue"
-          accept=".jpg, .jpeg, .png, .pdf"
-          name="formulir"
-          required
-        />
 
-        {daftarSebagai == "PINDAHAN" && (
+        {formData?.jenis_daftar == "PINDAHAN" && (
           <Input
             type="file"
             label="Scan Transkrip"
@@ -87,7 +80,7 @@ function UploadForm() {
             name="scan_transkip"
           />
         )}
-        {isKip == 1 && (
+        {formData?.kip == 1 && (
           <Input
             type="file"
             label="Scan Kartu Indonesia Pintar (KIP)"
@@ -96,7 +89,7 @@ function UploadForm() {
             name="scan_kip"
           />
         )}
-        {kpsPkh == 1 && (
+        {formData?.kps_pkh == 1 && (
           <Input
             type="file"
             label="Scan Proram Keluarga Harapan (PKH)"
@@ -121,6 +114,29 @@ function UploadForm() {
           name="bukti_bayar"
         />
       </div>
+      <TitleForm display={"Upload Formulir"} />
+
+      <SubForm>
+        <div className="flex flex-col gap-5">
+          <Typography className="text-blue-gray-900">
+            Formulir dapat diunduh melalui{" "}
+            <Link
+              href={`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/formulir-pmb?daftar=${mhsId}`}
+              className="underline text-blue-500 ">
+              Link
+            </Link>{" "}
+            berikut
+          </Typography>
+          <Input
+            type="file"
+            label="Formulir"
+            color="blue"
+            accept=".jpg, .jpeg, .png, .pdf"
+            name="formulir"
+            required
+          />
+        </div>
+      </SubForm>
     </CardBody>
   );
 }

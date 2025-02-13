@@ -8,6 +8,7 @@ function SelectComponent({
   isDisabled = false,
   required = false,
   name = "",
+  defaultValue
 }) {
   return (
     <Select
@@ -17,6 +18,7 @@ function SelectComponent({
       placeholder={placeholder}
       onChange={handleChange}
       isDisabled={isDisabled}
+      defaultValue={defaultValue}
       required={required}
       name={name}
     />

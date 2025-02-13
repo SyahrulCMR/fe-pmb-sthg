@@ -29,7 +29,7 @@ function JalurList({ gelombang }) {
   const router = useRouter();
 
   const setJalur = (jalur) => {
-    sessionStorage.setItem("_jalur", jalur);
+    localStorage.setItem("_jalur", jalur);
     router.push("/daftar/personal");
   };
 

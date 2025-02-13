@@ -17,7 +17,7 @@ import {
   stayWithOptions,
 } from "@/utils/data";
 
-function PersonalForm({ prodi, kelas }) {
+function PersonalForm({ prodi, kelas, formData }) {
   const [provincies, setProvincies] = useState();
   const [regencies, setRegencies] = useState();
   const [districts, setDistricts] = useState();
@@ -86,8 +86,9 @@ function PersonalForm({ prodi, kelas }) {
         <Input
           type="text"
           label="Nama Lengkap"
-          name="name"
+          name="nama_lengkap"
           color="blue"
+          defaultValue={formData?.nama_lengkap || ""}
           required
         />
         <Input
@@ -96,6 +97,7 @@ function PersonalForm({ prodi, kelas }) {
           label="NIK"
           name="nik"
           color="blue"
+          defaultValue={formData?.nik || ""}
           required
         />
         <Input
@@ -104,6 +106,7 @@ function PersonalForm({ prodi, kelas }) {
           label="NISN"
           name="nisn"
           color="blue"
+          defaultValue={formData?.nisn || ""}
           required
         />
         <div className="sm:flex items-center">
@@ -112,12 +115,14 @@ function PersonalForm({ prodi, kelas }) {
             <Radio
               name="jenis_kelamin"
               label="Laki Laki"
+              defaultChecked={formData?.jenis_kelamin === "MALE"}
               value={"MALE"}
               required
             />
             <Radio
               name="jenis_kelamin"
               label="Perempuan"
+              defaultChecked={formData?.jenis_kelamin  === "FEMALE"}
               value={"FEMALE"}
               required
             />
@@ -127,6 +132,7 @@ function PersonalForm({ prodi, kelas }) {
           options={agamaOptions}
           placeholder={"Agama"}
           name="agama"
+          defaultValue={formData?.agama}
           required
         />
         <Input
@@ -135,6 +141,7 @@ function PersonalForm({ prodi, kelas }) {
           label="No. Hp"
           color="blue"
           name="kontak_wa"
+          defaultValue={formData?.kontak_wa}
           required
         />
         <Input
@@ -142,6 +149,7 @@ function PersonalForm({ prodi, kelas }) {
           label="Alamat Email"
           color="blue"
           name="email"
+          defaultValue={formData?.email}
           required
         />
         <Input
@@ -149,6 +157,7 @@ function PersonalForm({ prodi, kelas }) {
           label="Tanggal Lahir"
           color="blue"
           name="tgl_lahir"
+          defaultValue={formData?.tgl_lahir}
           required
         />
         <Input
@@ -156,6 +165,7 @@ function PersonalForm({ prodi, kelas }) {
           label="Tempat Lahir"
           color="blue"
           name="tempat_lahir"
+          defaultValue={formData?.tempat_lahir}
           required
         />
 
@@ -163,12 +173,14 @@ function PersonalForm({ prodi, kelas }) {
           options={stayWithOptions}
           placeholder={"Tinggal Bersama"}
           name="stay_with"
+          defaultValue={formData?.stay_with}
           required
         />
         <SelectComponent
           options={kewarganegaraanOptions}
           placeholder={"Kewarganegaraan"}
           name="nationality"
+          defaultValue={formData?.nationality}
           required
         />
       </SubForm>
@@ -180,6 +192,7 @@ function PersonalForm({ prodi, kelas }) {
           handleChange={handleProvinceChange}
           placeholder={"Provinsi"}
           name="province"
+          defaultValue={formData?.province}
           required
         />
         <SelectComponent
@@ -188,6 +201,7 @@ function PersonalForm({ prodi, kelas }) {
           placeholder={"Kabupaten / Kota"}
           isDisabled={selectedProvince == null}
           name="regency"
+          defaultValue={formData?.regency}
           required
         />
         <SelectComponent
@@ -196,6 +210,7 @@ function PersonalForm({ prodi, kelas }) {
           placeholder={"Kecamatan"}
           isDisabled={selectedProvince == null || selectedRegency == null}
           name="district"
+          defaultValue={formData?.district}
           required
         />
         <SelectComponent
@@ -208,6 +223,7 @@ function PersonalForm({ prodi, kelas }) {
             selectedDistricts == null
           }
           name="village"
+          defaultValue={formData?.village}
           required
         />
 
@@ -216,6 +232,7 @@ function PersonalForm({ prodi, kelas }) {
           label="Kampung / Jalan"
           color="blue"
           name="kampung"
+          defaultValue={formData?.kampung}
           required
         />
         <Input
@@ -224,6 +241,7 @@ function PersonalForm({ prodi, kelas }) {
           label="RT (format: 001)"
           color="blue"
           name="rt_number"
+          defaultValue={formData?.rt_number}
           required
         />
         <Input
@@ -232,6 +250,7 @@ function PersonalForm({ prodi, kelas }) {
           label="RW (format: 001)"
           color="blue"
           name="rw_number"
+          defaultValue={formData?.rw_number}
           required
         />
         <Input
@@ -240,6 +259,7 @@ function PersonalForm({ prodi, kelas }) {
           label="Kode Pos"
           color="blue"
           name="pos_code"
+          defaultValue={formData?.pos_code}
           required
         />
       </SubForm>
@@ -251,6 +271,7 @@ function PersonalForm({ prodi, kelas }) {
           options={daftarOptions}
           placeholder={"Daftar Sebagai"}
           name="jenis_daftar"
+          defaultValue={formData?.jenis_daftar}
           required
         />
 
@@ -259,16 +280,36 @@ function PersonalForm({ prodi, kelas }) {
             <div className="sm:flex items-center">
               <Typography>Penerima KIP (Opsional)</Typography>
               <div className="flex items-center gap-3">
-                <Radio name="kip" label="YA" value={1} />
-                <Radio name="kip" label="TIDAK" value={0} />
+                <Radio
+                  name="kip"
+                  label="YA"
+                  value={1}
+                  defaultChecked={formData?.kip == "1"}
+                />
+                <Radio
+                  name="kip"
+                  label="TIDAK"
+                  value={0}
+                  defaultChecked={formData?.kip == "0"}
+                />
               </div>
             </div>
 
             <div className="sm:flex items-center">
               <Typography>Penerima KPS atau PKH (Opsional)</Typography>
               <div className="flex items-center gap-3">
-                <Radio name="kps_pkh" label="YA" value={1} />
-                <Radio name="kps_pkh" label="TIDAK" value={0} />
+                <Radio
+                  name="kps_pkh"
+                  label="YA"
+                  value={1}
+                  defaultChecked={formData?.kps_pkh == "1"}
+                />
+                <Radio
+                  name="kps_pkh"
+                  label="TIDAK"
+                  value={0}
+                  defaultChecked={formData?.kps_pkh == "0"}
+                />
               </div>
             </div>
 
@@ -278,6 +319,7 @@ function PersonalForm({ prodi, kelas }) {
               label="Nomor KPS atau PKH (Opsional)"
               color="blue"
               name="nomor_kps_pkh"
+              defaultValue={formData?.nomor_kps_pkh}
             />
           </>
         )}

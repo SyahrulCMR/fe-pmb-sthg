@@ -17,23 +17,39 @@ import { handleDaftar } from "@/utils/actions";
 import { useEffect, useState } from "react";
 import PersonalForm from "@/components/daftar/personal-form";
 import Link from "next/link";
+import { getForm } from "@/utils/data";
 
 function Page() {
   const [jalur, setJalur] = useState("");
   const [progres, setProgres] = useState(25);
   const [mahasiswaId, setMahasiswaId] = useState();
+  const [form, setForm] = useState();
 
   const { step } = useParams();
 
   useEffect(() => {
-    const path = sessionStorage.getItem("_jalur") || "No Jalur";
-    const id = sessionStorage.getItem("_mhs_id");
-    const prog = Number(sessionStorage.getItem("_progres"));
+    const path = localStorage.getItem("_jalur") || "No Jalur";
+    const id = localStorage.getItem("_mhs_id");
+    const prog = Number(localStorage.getItem("_progres"));
 
     setJalur(path);
     setMahasiswaId(id);
     setProgres(prog);
-  });
+    setForm(getForm());
+  },[]);
+
+  const handleBack = () => {
+    const url = new URL(window.location.href);
+    const pathname = url.pathname.split("/").filter(Boolean);
+
+    if (pathname[1] === "school") {
+      window.location.href = "/daftar/personal";
+    } else if (pathname[1] === "parent") {
+      window.location.href = "/daftar/school";
+    } else if (pathname[1] === "upload") {
+      window.location.href = "/daftar/parent";
+    }
+  };
 
   const [prodi, kelas] = jalur.split(" ");
   return (
@@ -59,16 +75,27 @@ function Page() {
                 encType="multipart/form-data"
                 method="post">
                 {step == "personal" && (
-                  <PersonalForm prodi={prodi} kelas={kelas} />
+                  <PersonalForm prodi={prodi} kelas={kelas} formData={form} />
                 )}
 
-                {step == "school" && <SchoolForm prodi={prodi} />}
+                {step == "school" && <SchoolForm prodi={prodi} formData={form} />}
 
-                {step == "parent" && <ParentForm />}
+                {step == "parent" && <ParentForm formData={form} />}
 
-                {step == "upload" && <UploadForm />}
+                {step == "upload" && <UploadForm formData={form} />}
 
-                <CardFooter className="flex justify-end">
+                <CardFooter
+                  className={`flex justify-${
+                    step !== "personal" ? "between" : "end"
+                  }`}>
+                  {step !== "personal" && (
+                    <Button
+                      type="button"
+                      onClick={handleBack}
+                      variant="outline">
+                      Kembali
+                    </Button>
+                  )}
                   <Button type="submit">
                     {step === "upload" ? "Submit" : "Lanjutkan"}
                   </Button>
