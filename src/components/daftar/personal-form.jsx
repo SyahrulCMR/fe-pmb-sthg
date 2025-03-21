@@ -8,6 +8,7 @@ import SubForm from "../fragments/sub-form";
 import SelectComponent from "../fragments/select-component";
 import {
   agamaOptions,
+  beasiswaOptions,
   daftarOptions,
   getDistricts,
   getProvincies,
@@ -22,11 +23,19 @@ function PersonalForm({ prodi, kelas, formData }) {
   const [regencies, setRegencies] = useState();
   const [districts, setDistricts] = useState();
   const [villages, setVillages] = useState();
+  const [isBeasiswa, setIsBeasiswa] = useState();
+  const [beasiswa, setBeasiswa] = useState();
 
   const [selectedProvince, setSelectedProvince] = useState(null);
   const [selectedRegency, setSelectedRegency] = useState(null);
   const [selectedDistricts, setSelectedDistricts] = useState(null);
   const [selectedVillages, setSelectedVillages] = useState(null);
+
+  useEffect(() => {
+    beasiswaOptions().then((res) => {
+      setBeasiswa(res);
+    });
+  }, []);
 
   useEffect(() => {
     getProvincies().then((res) => {
@@ -122,7 +131,7 @@ function PersonalForm({ prodi, kelas, formData }) {
             <Radio
               name="jenis_kelamin"
               label="Perempuan"
-              defaultChecked={formData?.jenis_kelamin  === "FEMALE"}
+              defaultChecked={formData?.jenis_kelamin === "FEMALE"}
               value={"FEMALE"}
               required
             />
@@ -322,6 +331,33 @@ function PersonalForm({ prodi, kelas, formData }) {
               defaultValue={formData?.nomor_kps_pkh}
             />
           </>
+        )}
+        <div className="sm:flex items-center">
+          <Typography>Penerima Beasiswa (Opsional)</Typography>
+          <div className="flex items-center gap-3">
+            <Radio
+              name="isBeasiswa"
+              label="YA"
+              checked={isBeasiswa === 1}
+              onChange={() => setIsBeasiswa(1)}
+              value={1}
+            />
+            <Radio
+              name="isBeasiswa"
+              label="TIDAK"
+              checked={isBeasiswa === 0}
+              onChange={() => setIsBeasiswa(0)}
+              value={0}
+            />
+          </div>
+        </div>
+        {isBeasiswa === 1 && (
+          <SelectComponent
+            options={beasiswa}
+            placeholder={"Jenis Beasiswa"}
+            name="beasiswa"
+            required
+          />
         )}
       </SubForm>
     </CardBody>

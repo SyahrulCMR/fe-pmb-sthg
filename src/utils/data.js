@@ -250,6 +250,34 @@ export const agamaOptions = [
   },
 ];
 
+export const beasiswaOptions = async() => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/beasiswa`,
+      {
+        cache: "no-store",
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch: ${res.status} ${res.statusText}`);
+    }
+
+    const result = await res.json();
+
+    const formattedOptions = result.data.map((item) => ({
+      value: item,
+      label: item,
+    }));
+
+    return formattedOptions;
+  } catch (error) {
+    console.log("Error fetching beasiswa data:", error.message);
+    return []; // Return an empty array in case of an error
+  }
+}
+
+
 export const generateGraduationYearOptions = () => {
   const currentYear = new Date().getFullYear();
   const startYear = currentYear - 9;

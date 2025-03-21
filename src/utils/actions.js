@@ -47,6 +47,10 @@ export const handleDaftar = (e) => {
       kps_pkh: Number(formData.get("kps_pkh")),
       nomor_kps_pkh: formData.get("nomor_kps_pkh"),
       jalur: Number(formData.get("kip")) === 1 ? "KIPK" : "UMUM",
+      beasiswa:
+        formData.get("beasiswa") !== null && formData.get("beasiswa") !== 0
+          ? formData.get("beasiswa")
+          : "TIDAK",
     };
 
     localStorage.setItem("_form", JSON.stringify(personalData));
