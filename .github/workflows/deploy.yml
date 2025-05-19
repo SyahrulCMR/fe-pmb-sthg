@@ -1,45 +1,46 @@
-name: Deploy Next.js to cPanel
+name: Deploy Next.js SSR to cPanel
 
 on:
   push:
     branches:
-      - main  # Ubah jika kamu menggunakan branch lain
+      - main  # Ubah jika pakai branch lain
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+      - name: 🧾 Checkout Repository
+        uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '20.10.0' # Sesuaikan dengan versi Node.js yang kamu gunakan
+          node-version: '20.10.0'
 
-      - name: Install Dependencies
-        run: npm install
+      - name: 📦 Install Dependencies
+        run: npm ci
 
-      - name: Build Next.js App
+      - name: 🏗️ Build Next.js App
         run: npm run build
 
-      - name: Upload Files via FTP
+      - name: 🚀 Upload App to Shared Hosting (cPanel)
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
-          local-dir: '.next/' # Direktori hasil build Next.js
-          server-dir: '.next/' # Ubah sesuai dengan direktori cPanel kamu
-
-      - name: Upload Static Files
-        uses: SamKirkland/FTP-Deploy-Action@4.3.0
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: ${{ secrets.FTP_PORT }}
-          local-dir: 'public/' # Folder public dari Next.js
-          server-dir: '/' # Ubah sesuai dengan direktori cPanel kamu
+          local-dir: ./
+          server-dir: /your-app-folder/ # Ubah sesuai path di hosting kamu
+          exclude: |
+            **/.git*
+            **/.github/**
+            **/node_modules/**
+            **/.next/cache/**
+            **/*.md
+            **/.env.example
+            **/README.md
+            **/tailwind.config.js
+            **/postcss.config.mjs
+            **/package-lock.json
