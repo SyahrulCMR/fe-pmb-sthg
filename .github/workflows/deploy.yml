@@ -1,0 +1,45 @@
+name: Deploy Next.js to cPanel
+
+on:
+  push:
+    branches:
+      - main  # Ubah jika kamu menggunakan branch lain
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.10.0' # Sesuaikan dengan versi Node.js yang kamu gunakan
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Next.js App
+        run: npm run build
+
+      - name: Upload Files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: ${{ secrets.FTP_PORT }}
+          local-dir: '.next/' # Direktori hasil build Next.js
+          server-dir: '.next/' # Ubah sesuai dengan direktori cPanel kamu
+
+      - name: Upload Static Files
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: ${{ secrets.FTP_PORT }}
+          local-dir: 'public/' # Folder public dari Next.js
+          server-dir: '/' # Ubah sesuai dengan direktori cPanel kamu
